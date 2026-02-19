@@ -1,0 +1,44 @@
+{
+  "name": "@toleno/mcp",
+  "version": "1.0.0",
+  "description": "Toleno Network MCP Server — Manage your Toleno account with Claude AI.",
+  "mcpName": "io.github.tolenonetwork/mcp_toleno",
+  "main": "index.js",
+  "bin": {
+    "toleno-mcp": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "setup.js",
+    "client.js",
+    "client-public.js",
+    "tools/",
+    "icon.png",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "mcp",
+    "toleno",
+    "claude",
+    "ai",
+    "mining",
+    "crypto",
+    "model-context-protocol"
+  ],
+  "author": "Toleno Network",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tolenonetwork/toleno-mcp"
+  },
+  "homepage": "https://tolenocoin.com"
+}
