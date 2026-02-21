@@ -1,7 +1,7 @@
 const definitions = [
     {
         name: 'get_wallet_info',
-        description: "Get comprehensive wallet information for the authenticated Toleno user. Returns the available (withdrawable) token balance, locked mining balance, total tokens ever mined, the connected wallet address and preferred network (BSC/Polygon), withdrawal statistics (today's total, pending count, completed count), and the minimum/maximum withdrawal amounts.",
+        description: "Get comprehensive wallet information for the authenticated Toleno user. Returns the available (withdrawable) token balance, locked mining balance, total tokens ever mined, the connected wallet address and preferred network (Solana), withdrawal statistics (today's total, pending count, completed count), and the minimum/maximum withdrawal amounts.",
         inputSchema: { type: 'object', properties: {}, required: [] }
     }
 ];

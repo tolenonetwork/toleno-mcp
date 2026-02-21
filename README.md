@@ -105,6 +105,7 @@ Add `.mcp.json` to your project root:
 | `get_profile` | Your balance, mining power, streak, level | Yes |
 | `get_mining_status` | Active session, time remaining, tokens earned | Yes |
 | `start_mining` | Start a new 24-hour mining session | Yes |
+| `claim_mining` | Claim rewards after a completed session | Yes |
 | `get_wallet_info` | Wallet address, withdrawable balance, limits | Yes |
 | `get_referral_info` | Referral code, team size, active referrals | Yes |
 
@@ -153,7 +154,7 @@ Claude: Your referral stats:
 Your key is stored locally in the Claude config file — never sent to Claude's servers. Revoke it anytime from the Toleno app.
 
 **Q: Can Claude do anything harmful to my account?**
-No. Claude can only read data and start mining sessions. It cannot claim rewards, change your wallet address, withdraw tokens, or delete your account. To claim rewards, open the Toleno app.
+No. Claude can only read data, start mining sessions, and claim completed rewards. It cannot change your wallet address, withdraw tokens, or delete your account.
 
 **Q: The tools don't appear in Claude Desktop.**
 Fully quit and restart Claude Desktop after setup. Look for the 🔨 hammer icon in the chat toolbar.

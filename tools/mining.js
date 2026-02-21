@@ -6,7 +6,12 @@ const definitions = [
     },
     {
         name: 'start_mining',
-        description: 'Start a new 24-hour mining session for the authenticated Toleno user. Only one session can be active at a time. If a session is already active or there are unclaimed rewards, the API will return an error. Returns session start time, end time, and the total tokens that will be earned.',
+        description: 'Start a new 24-hour mining session for the authenticated Toleno user. Can only be called when no active session exists. Returns the session details including start/end times and expected token earnings.',
+        inputSchema: { type: 'object', properties: {}, required: [] }
+    },
+    {
+        name: 'claim_mining',
+        description: 'Claim mining rewards after a completed 24-hour session. Can only be called when a session has ended and rewards are ready to collect. Returns the amount of tokens claimed and the new balance.',
         inputSchema: { type: 'object', properties: {}, required: [] }
     },
 ];
@@ -17,6 +22,9 @@ const handlers = {
     },
     start_mining: async (client, _args) => {
         return await client.post('/mining/start', {});
+    },
+    claim_mining: async (client, _args) => {
+        return await client.post('/mining/claim', {});
     },
 };
 

@@ -11,8 +11,8 @@
 const PROJECT_INFO = {
     name: 'Toleno Network',
     symbol: 'TOLENO',
-    type: 'BEP-20 Token',
-    blockchain: 'BNB Smart Chain (BSC)',
+    type: 'SPL Token',
+    blockchain: 'Solana',
     contract_address: 'Not yet deployed — will be published at mainnet launch',
     website: 'https://tolenocoin.com',
     whitepaper: 'https://tolenocoin.com/whitepaper',
@@ -73,8 +73,8 @@ const ROADMAP = [
     {
         phase: 'Phase 3 — Token Launch (Coming Soon)',
         items: [
-            'Smart contract deployment on BNB Smart Chain (BSC)',
-            'DEX listing (PancakeSwap)',
+            'Token deployment on Solana',
+            'DEX listing (Raydium / Jupiter)',
             'Token claim and withdrawal activation',
             'CoinGecko and CoinMarketCap applications'
         ]
@@ -85,7 +85,7 @@ const ROADMAP = [
             'CEX (centralized exchange) listing negotiations',
             'NFT integration',
             'DAO governance mechanism',
-            'Cross-chain bridge (BSC, Ethereum, Polygon)'
+            'Cross-chain bridge (Solana, Ethereum)'
         ]
     }
 ];
@@ -111,8 +111,8 @@ const SECURITY_INFO = {
         'NPM package: @toleno/mcp is open source and auditable by anyone'
     ],
     upcoming_milestones: [
-        'BSC mainnet smart contract deployment is actively being prepared',
-        'DEX listing on PancakeSwap is planned as part of the token launch phase',
+        'Solana mainnet token deployment is actively being prepared',
+        'DEX listing on Raydium/Jupiter is planned as part of the token launch phase',
         'The team is committed to delivering every milestone on the roadmap — early miners will be rewarded the most'
     ]
 };
@@ -128,11 +128,11 @@ const FAQ = [
     },
     {
         q: 'When can I withdraw my tokens?',
-        a: 'Tokens are currently being accumulated in the app. Withdrawals will be enabled after the smart contract is deployed on BSC and the DEX listing is completed.'
+        a: 'Tokens are currently being accumulated in the app. Withdrawals will be enabled after the token is deployed on Solana and the DEX listing is completed.'
     },
     {
         q: 'Which blockchain network is it on?',
-        a: 'TOLENO token will be deployed on BNB Smart Chain (BSC) as a BEP-20 token. Cross-chain bridges to other networks are planned for the future.'
+        a: 'TOLENO token will be deployed on Solana as an SPL token. Cross-chain bridges to other networks are planned for the future.'
     },
     {
         q: 'Is it free?',
@@ -175,7 +175,7 @@ const definitions = [
     },
     {
         name: 'get_roadmap',
-        description: 'Get the Toleno Network development roadmap: completed phases, current progress, and upcoming milestones including BSC deployment and DEX listing. This is a public tool — no API key required.',
+        description: 'Get the Toleno Network development roadmap: completed phases, current progress, and upcoming milestones including Solana deployment and DEX listing. This is a public tool — no API key required.',
         inputSchema: {
             type: 'object',
             properties: {},

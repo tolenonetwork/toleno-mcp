@@ -1,8 +1,8 @@
 {
   "name": "@toleno/mcp",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Toleno Network MCP Server — Manage your Toleno account with Claude AI.",
-  "mcpName": "io.github.tolenonetwork/mcp_toleno",
+  "mcpName": "io.github.tolenonetwork/toleno-mcp",
   "main": "index.js",
   "bin": {
     "toleno-mcp": "./index.js"
@@ -40,5 +40,8 @@
     "type": "git",
     "url": "https://github.com/tolenonetwork/toleno-mcp"
   },
-  "homepage": "https://tolenocoin.com"
+  "homepage": "https://tolenocoin.com",
+  "publishConfig": {
+  "access": "public"
+}
 }
