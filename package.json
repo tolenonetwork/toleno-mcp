@@ -1,6 +1,6 @@
 {
   "name": "@toleno/mcp",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Toleno Network MCP Server — Manage your Toleno account with Claude AI.",
   "mcpName": "io.github.tolenonetwork/toleno-mcp",
   "main": "index.js",

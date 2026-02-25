@@ -7,7 +7,7 @@
     "url": "https://github.com/tolenonetwork/toleno-mcp",
     "source": "github"
   },
-  "version": "1.0.4",
+  "version": "1.0.6",
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/tolenonetwork/toleno-mcp/main/icon.png",
@@ -19,7 +19,7 @@
     {
       "registryType": "npm",
       "identifier": "@toleno/mcp",
-      "version": "1.0.4",
+      "version": "1.0.6",
       "transport": {
         "type": "stdio"
       },

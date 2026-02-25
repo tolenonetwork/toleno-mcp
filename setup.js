@@ -13,20 +13,40 @@ const readline = require('readline');
 const https = require('https');
 
 // ── Config file paths per OS ─────────────────────────────────────────────────
-function getConfigPath() {
+// Returns an array of all possible config paths so we can write to ALL of them.
+// This ensures both classic (EXE) and Windows Store (MSIX) installs are covered.
+function getConfigPaths() {
     const platform = process.platform;
     const home = process.env.HOME || process.env.USERPROFILE || '';
 
     if (platform === 'win32') {
+        const paths = [];
+
+        // 1) Windows Store (MSIX) kurulumu
+        const localAppData = process.env.LOCALAPPDATA || path.join(home, 'AppData', 'Local');
+        const packagesDir = path.join(localAppData, 'Packages');
+        if (fs.existsSync(packagesDir)) {
+            try {
+                const entries = fs.readdirSync(packagesDir);
+                const claudePackage = entries.find(e => e.startsWith('Claude_'));
+                if (claudePackage) {
+                    paths.push(path.join(packagesDir, claudePackage, 'LocalCache', 'Roaming', 'Claude', 'claude_desktop_config.json'));
+                }
+            } catch {}
+        }
+
+        // 2) Klasik kurulum (Program Files / EXE installer)
         const appData = process.env.APPDATA || path.join(home, 'AppData', 'Roaming');
-        return path.join(appData, 'Claude', 'claude_desktop_config.json');
+        paths.push(path.join(appData, 'Claude', 'claude_desktop_config.json'));
+
+        return paths;
     }
     if (platform === 'darwin') {
-        return path.join(home, 'Library', 'Application Support', 'Claude', 'claude_desktop_config.json');
+        return [path.join(home, 'Library', 'Application Support', 'Claude', 'claude_desktop_config.json')];
     }
     // Linux
     const configDir = process.env.XDG_CONFIG_HOME || path.join(home, '.config');
-    return path.join(configDir, 'Claude', 'claude_desktop_config.json');
+    return [path.join(configDir, 'Claude', 'claude_desktop_config.json')];
 }
 
 // ── API key validation ───────────────────────────────────────────────────────
@@ -99,49 +119,59 @@ async function setup() {
     }
     console.log('✓');
 
-    // 3) Find config file
-    const configPath = getConfigPath();
-    const configDir = path.dirname(configPath);
-    console.log(`  Config file: ${configPath}`);
-
-    // 4) Read existing config or create new
-    let config = {};
-    if (fs.existsSync(configPath)) {
-        try {
-            const raw = fs.readFileSync(configPath, 'utf-8');
-            config = JSON.parse(raw);
-            console.log('  Existing config found — merging...');
-        } catch (err) {
-            console.error(`\n  ✗ Could not parse existing config: ${err.message}`);
-            console.error('  Please fix the JSON manually or delete the file and retry.');
-            process.exit(1);
-        }
-    } else {
-        console.log('  No existing config — creating new...');
-        // Ensure directory exists
-        fs.mkdirSync(configDir, { recursive: true });
-    }
-
-    // 5) Add/update Toleno entry
-    if (!config.mcpServers) {
-        config.mcpServers = {};
-    }
-
+    // 3) Find all config paths (both Store and classic on Windows)
+    const configPaths = getConfigPaths();
     const SERVER_KEY = 'Toleno Network';
-    const hadExisting = !!config.mcpServers[SERVER_KEY];
-    config.mcpServers[SERVER_KEY] = {
+    const mcpEntry = {
         command: 'npx',
         args: ['-y', '@toleno/mcp'],
-        env: {
-            TOLENO_API_KEY: apiKey
-        }
+        env: { TOLENO_API_KEY: apiKey }
     };
 
-    // 6) Write config
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n', 'utf-8');
+    let writtenCount = 0;
+
+    for (const configPath of configPaths) {
+        const configDir = path.dirname(configPath);
+        console.log(`  Config: ${configPath}`);
+
+        // 4) Read existing config or create new
+        let config = {};
+        if (fs.existsSync(configPath)) {
+            try {
+                const raw = fs.readFileSync(configPath, 'utf-8');
+                config = JSON.parse(raw);
+            } catch (err) {
+                console.log(`    ⚠ Could not parse — skipping (${err.message})`);
+                continue;
+            }
+        } else {
+            // Ensure directory exists
+            try {
+                fs.mkdirSync(configDir, { recursive: true });
+            } catch {
+                console.log(`    ⚠ Could not create directory — skipping`);
+                continue;
+            }
+        }
+
+        // 5) Add/update Toleno entry
+        if (!config.mcpServers) config.mcpServers = {};
+        const hadExisting = !!config.mcpServers[SERVER_KEY];
+        config.mcpServers[SERVER_KEY] = mcpEntry;
+
+        // 6) Write config
+        fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n', 'utf-8');
+        console.log(`    ✓ ${hadExisting ? 'Updated' : 'Added'}`);
+        writtenCount++;
+    }
+
+    if (writtenCount === 0) {
+        console.error('\n  ✗ Could not write to any Claude Desktop config file.');
+        process.exit(1);
+    }
 
     console.log('');
-    console.log(`  ✓ ${hadExisting ? 'Updated' : 'Added'} Toleno MCP server to Claude Desktop config`);
+    console.log(`  ✓ Wrote to ${writtenCount} config file${writtenCount > 1 ? 's' : ''}`);
     console.log('');
     console.log('  ┌─────────────────────────────────────────┐');
     console.log('  │  Now restart Claude Desktop to connect!  │');

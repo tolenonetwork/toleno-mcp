@@ -59,9 +59,12 @@ npx @toleno/mcp setup --key tlno_your_key_here
 
 | OS | Config file |
 |----|-------------|
-| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Windows (classic) | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Windows (Store app) | `%LOCALAPPDATA%\Packages\Claude_*\LocalCache\Roaming\Claude\claude_desktop_config.json` |
 | macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
 | Linux | `~/.config/Claude/claude_desktop_config.json` |
+
+> **Tip:** `npx @toleno/mcp setup` auto-detects both Windows paths and writes to all of them.
 
 ```json
 {
